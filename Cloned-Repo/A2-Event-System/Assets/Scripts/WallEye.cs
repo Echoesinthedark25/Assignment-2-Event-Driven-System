@@ -46,21 +46,14 @@ public class WallEye : MonoBehaviour, IHittable
             {
                 // we don't want to trigger this every frame,
                 // only initially when the eye state is set
+                //Eye will remain open
                 if (eyeState != WallEyeState.Open)
                 {
                     eyeState = WallEyeState.Open;
                     UpdateState();
                 }
             }
-            else
-            {
-                // when outside of range, close the eye
-                if (eyeState != WallEyeState.Closed)
-                {
-                    eyeState = WallEyeState.Closed;
-                    UpdateState();
-                }
-            }
+           
         }
     }
 
@@ -68,9 +61,7 @@ public class WallEye : MonoBehaviour, IHittable
     {
         switch (eyeState)
         {
-            case WallEyeState.Closed:
-                spriteRenderer.sprite = eyeClosed;
-                break;
+            
             case WallEyeState.Open:
                 spriteRenderer.sprite = eyeOpened;
                 break;
