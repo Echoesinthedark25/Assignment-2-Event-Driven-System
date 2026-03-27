@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public enum WallEyeState { Closed, Open, Defeated }
 
-public class WallEye : MonoBehaviour, IHittable
+public class WallEye : MonoBehaviour, ISwitchable
 {
     public Sprite eyeClosed;
     public Sprite eyeOpened;
@@ -72,7 +72,7 @@ public class WallEye : MonoBehaviour, IHittable
         animator.SetTrigger("StartHit");
     }
 
-    public void Hit(GameObject gameObject)
+    public void Switch()
     {
         if (eyeState == WallEyeState.Open)
         {
@@ -83,7 +83,7 @@ public class WallEye : MonoBehaviour, IHittable
     }
 
     // this is called from the toggle Unity Event
-    public void OpenClose(bool close)
+    public void OpenClose(bool close, bool isRed)
     {
         if (eyeState != WallEyeState.Defeated)
         {

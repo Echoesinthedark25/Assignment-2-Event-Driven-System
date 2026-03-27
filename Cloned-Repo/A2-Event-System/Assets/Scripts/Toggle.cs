@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Toggle : MonoBehaviour, IHittable
+public class Toggle : MonoBehaviour, ISwitchable
 {
     public Sprite toggleOn;
     public Sprite toggleOff;
+    public bool isRed = true; //if false then blue
 
     // we should hide this because we do not want other developers
     // attempting to connect this Unity Event in the editor
     [HideInInspector]
-    public UnityEvent<bool> OnToggle;
+    public UnityEvent<bool, bool> OnToggle;
 
     bool toggleState = false;
     SpriteRenderer spriteRenderer;
@@ -23,7 +24,7 @@ public class Toggle : MonoBehaviour, IHittable
         animator = GetComponent<Animator>();
         if (OnToggle == null)
         {
-            OnToggle = new UnityEvent<bool>();
+            OnToggle = new UnityEvent<bool, bool>();
         }
     }
 
@@ -33,11 +34,11 @@ public class Toggle : MonoBehaviour, IHittable
         animator.SetTrigger("StartHit");
     }
 
-    public void Hit(GameObject gameObject)
+    public void Switch()
     {
         toggleState = !toggleState;
         UpdateState();
 
-        OnToggle.Invoke(toggleState);
+        OnToggle.Invoke(toggleState, isRed);
     }
 }

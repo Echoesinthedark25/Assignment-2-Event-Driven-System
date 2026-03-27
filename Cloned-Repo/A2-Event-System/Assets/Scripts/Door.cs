@@ -12,7 +12,7 @@ public class Door : MonoBehaviour
 
     public String sceneName;
 
-    bool lockedState = true;
+    bool lockedState = false;
     SpriteRenderer spriteRenderer;
 
     void Awake()

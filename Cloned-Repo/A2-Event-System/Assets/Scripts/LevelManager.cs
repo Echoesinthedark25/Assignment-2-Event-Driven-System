@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public GameObject barriers1;
+    public GameObject barriers;
     public Toggle toggle1;
-    public WallEye wallEye;
+    public Toggle toggle2;
     public Door door;
+    public TimerUI timer;
+    public TimerTrigger trigger;
+    private WallEyeState eyeState; 
 
     // the level manager is responsible for connecting the core game system events
     // notice that these events have arguments - it's not possible to pass arguments to
@@ -16,26 +19,26 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (Transform child in barriers1.transform)
+        foreach (Transform child in barriers.transform)
         {
             Barrier barrier = child.GetComponent<Barrier>();
             toggle1.OnToggle.AddListener(barrier.Move);
+            toggle2.OnToggle.AddListener(barrier.Move);
         }
 
-        toggle1.OnToggle.AddListener(wallEye.OpenClose);
-
-        wallEye.OnEyeStateChanged.AddListener(lockDoor);
+        trigger.onLevelStart.AddListener(timer.startTimer);
+        
     }
 
-    void lockDoor(WallEyeState eyeState)
+    public void Update()
     {
-        if (eyeState == WallEyeState.Defeated)
+        lockDoor(eyeState);
+    }
+    public void lockDoor(WallEyeState eyeState)
+    {
+        if (eyeState == WallEyeState.Open)
         {
             door.SetLock(false);
-        }
-        else
-        {
-            door.SetLock(true);
         }
     }
 }
